@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Eleglance Jewellery">
+    <meta name="author" content="Lance Soares">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Eleglance Jewellery: {{title}}</title>
+
+    <!-- Custom Style   -->
+    <link href="{% static 'webapp/css/style.css' %}" rel="stylesheet">
+
+    <!-- Icons -->
+    <script src="https://kit.fontawesome.com/0462864d9d.js" crossorigin="anonymous"></script>
+
+    <!--Google Fonts-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Title Icon-->
+    <link rel="icon" href="{% static 'webapp/image/icon.png' %}" type="image/gif" sizes="16x16">
+
+</head>
+
+<body>
+    <!--Nav Bar-->
+    <nav class="nav flex-row">
+        <div class="nav-brand">
+            <img src="{% static 'webapp/image/eleglancelogo.png' %}" alt="Eleglance Jewellery">
+        </div>
+        <div class="nav-links">
+            <ul class="nav-items flex-row">
+                <li class="nav-link flex-row">
+                    <a href="{% url 'products' %}" class="flex-row">
+                        <div class="nav-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="nav-text">
+                            PRODUCTS
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-link flex-row">
+                    <a href="{% url 'wishlist' %}" class="flex-row">
+                        <div class="nav-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="nav-text">
+                            MY WISHLIST
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="nav-profile">
+            {% if user.is_authenticated %}
+                Hello, {{ user.username }}!&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'logout' %}" class="log">Logout</a>
+            {% else %}
+                Hello, Costumer!&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'login' %}" class="log">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+    <!--Nav Bar End-->
+    <hr class="line">
+    {% block main %}
+    {% endblock %}
+
+    <!--Custom JS-->
+    <script src="{% static 'webapp/js/main.js' %}"></script>
+
+</body>

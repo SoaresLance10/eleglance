@@ -1,0 +1,68 @@
+{% extends "webapp/layout.html" %}
+{% load static %}
+
+{% block main %}
+<div class="signup-form">
+    <div class="form-head">
+        Signup
+    </div>
+    {% if flash_msg %}
+    <div class="flash-msg">
+        {{flash_msg}}
+    </div>
+    {% endif %}
+    <form action="{% url 'signup' %}" method="post" id="signup">
+        {% csrf_token %}
+        <h1 class="group-head">User Details</h1>
+        <div class="input-group">
+            <div class="label"><i class="fas fa-user"></i>First Name</div>
+            <input type="text" class="input" name="f_name" required>
+        </div>
+        <div class="input-group">
+            <div class="label"><i class="fas fa-signature"></i>Last Name</div>
+            <input type="text" class="input" name="l_name" required>
+        </div>
+        <div class="input-group">
+            <div class="label"><i class="fas fa-user-edit"></i>Username</div>
+            <input type="text" class="input" name="username" required>
+        </div>
+        <div class="input-group">
+            <div class="label"><i class="fas fa-phone-alt"></i>Phone Number</div>
+            <input type="tel" class="input" name="phone" required>
+        </div>
+        <div class="input-group">
+            <div class="label"><i class="fas fa-envelope"></i>Email ID</div>
+            <input type="email" class="input" name="email" required>
+        </div>
+        <hr class="line">
+        <h1 class="group-head">Company Details</h1>
+        <div class="input-group">
+            <div class="label"><i class="fas fa-building"></i>Company Name</div>
+            <input type="text" class="input" name="company_name" required>
+        </div><div class="input-group">
+            <div class="label"><i class="fas fa-map-marker-alt"></i>Location</div>
+            <input type="text" class="input" name="location" required>
+        </div><div class="input-group">
+            <div class="label"><i class="fas fa-address-card"></i>Role In Organisation</div>
+            <input type="text" class="input" name="role" required>
+        </div><div class="input-group">
+            <div class="label"><i class="fas fa-globe"></i>Company Website</div>
+            <input type="text" class="input" name="website" required>
+        </div>
+        <hr class="line">
+        <h1 class="group-head">Password</h1>
+        <div class="input-group">
+            <div class="label"><i class="fas fa-unlock"></i>Password</div>
+            <input type="password" class="input" name="pw1" required>
+        </div>
+        <div class="input-group">
+            <div class="label"><i class="fas fa-lock"></i>Confirm Password</div>
+            <input type="password" class="input" name="pw2" required>
+        </div>
+        <input type="submit" class="signup-btn" value="SIGN UP">
+    </form>
+    <div class="login-msg">
+        Already have an Account? Click Here to <a href="{% url 'login' %}">Login</a>
+    </div>
+</div>
+{% endblock %}

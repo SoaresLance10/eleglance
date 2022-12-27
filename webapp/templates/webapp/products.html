@@ -1,0 +1,131 @@
+{% extends "webapp/layout.html" %}
+{% load static %}
+
+{% block main %}
+<div class="search-bar flex-row">
+    <div class="filter-btn" id="filter-btn" onclick="showFilters()">
+        <i class="fas fa-list"></i>&nbsp;&nbsp;Filter Products {% if filterNo %}<span class="filter-no" onclick="remove()">{{filterNo}}</span>{% endif %}
+    </div>
+    <div class="search-form">
+        <form action="{% url 'products' %}" method="get" id="search-form" class="flex-row">
+            <input type="text" placeholder="Search For Products" name="search" value={{keyword}}>
+            <div class="search-btn" onclick="submitForms()">Search</div>
+    </div>
+    <div class="view">
+        
+    </div>
+</div>
+<hr class="line">
+
+<div class="filter-wrapper inactive-filter">
+    <div class="filter-menu-head">
+        <div class="apply-filter flex-row">
+            <input type="submit" value="Apply Filters" onclick="submitForms()">
+            {% if filterNo %} <div class="remove" onclick="remove()">Remove All</div> {% endif %}
+        </div>
+        <div class="close-filters">
+            <i class="fas fa-times" id="close-btn"></i>
+        </div>
+    </div>
+    <div class="filter-menu">
+            <div class="category">
+                <div class="category-head">
+                    Categories
+                </div>
+                <input type="checkbox" id="category1" name="category1" value="Earrings">
+                <label for="category1"> Earrings <span class="total-products">25</span></label><br>
+                <input type="checkbox" id="category2" name="category2" value="Pendants">
+                <label for="category2"> Pendants <span class="total-products">25</span></label><br>
+                <input type="checkbox" id="category3" name="category3" value="Rings">
+                <label for="category3"> Rings <span class="total-products">25</span></label><br>
+            </div>
+            <hr class="line">
+            <div class="diamond-wt">
+                <div class="category-head">
+                    Diamond Weight
+                </div>
+                <input type="checkbox" id="dwt1" name="dwt1" value="true">
+                <label for="dwt1"> 0.01 Cts - 0.50 Cts <span class="total-products">25</span></label><br>
+                <input type="checkbox" id="dwt2" name="dwt2" value="true">
+                <label for="dwt2"> 0.51 Cts - 0.75 Cts <span class="total-products">25</span></label><br>
+                <input type="checkbox" id="dwt3" name="dwt3" value="true">
+                <label for="dwt3"> 0.76 Cts - 1.00 Cts <span class="total-products">25</span></label><br>
+                <input type="checkbox" id="dwt4" name="dwt4" value="true">
+                <label for="dwt4"> 1.01 Cts - above <span class="total-products">25</span></label><br>
+            </div>
+            <hr class="line">
+            <div class="gold-wt">
+                <div class="category-head">
+                    Gold Weight
+                </div>
+                <input type="checkbox" id="gwt1" name="gwt1" value="true">
+                <label for="gwt1"> 0.10 Gms - 2.50 Gms <span class="total-products">25</span></label><br>
+                <input type="checkbox" id="gwt2" name="gwt2" value="true">
+                <label for="gwt2"> 2.51 Gms - 3.50 Gms <span class="total-products">25</span></label><br>
+                <input type="checkbox" id="gwt3" name="gwt3" value="true">
+                <label for="gwt3"> 3.51 Gms - 5.00 Gms <span class="total-products">25</span></label><br>
+                <input type="checkbox" id="gwt4" name="gwt4" value="true">
+                <label for="gwt4"> 5.01 Gms - above <span class="total-products">25</span></label><br>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="product-wrapper">
+    {% for product, images in products.items %}
+        <div class="product-box">
+            <div class="product-images">
+                <a href="{% url 'product' sku=product.sku %}">
+                    {% for image in images %}
+                        {% if forloop.counter == 1 %}
+                            <img src="{{image.image.url}}" alt="" class="img1">
+                        {% else %}
+                            <img src="{{image.image.url}}" alt="" class="img2">
+                        {% endif %}
+                    {% endfor %}
+                </a>
+            </div>
+            <div class="product-name">
+                <a href="{% url 'product' sku=product.sku %}">{{product}}</a><br><br>
+            </div>
+            {% if product.sku in wishlist %}
+                <span class="view-wishlist-product"><i class="far fa-heart"></i>&nbsp;&nbsp;Product already in Wishlist! <a href="{% url 'wishlist' %}">View Wishlist</a></span>
+            {% else %}
+                <a href="{% url 'addWishlist' sku=product.sku %}" class="add-wishlist"><i class="fas fa-heart"></i>&nbsp;&nbsp;Add to Wishlist</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <div class="product-box">
+        <img src="{% static 'webapp/image/test.jpg' %}" alt="">
+    </div>
+    <div class="product-box">
+        <img src="{% static 'webapp/image/test.jpg' %}" alt="">
+    </div>
+    <div class="product-box">
+        <img src="{% static 'webapp/image/test.jpg' %}" alt="">
+    </div>
+    <div class="product-box">
+        <img src="{% static 'webapp/image/test.jpg' %}" alt="">
+    </div>
+    <div class="product-box">
+        <img src="{% static 'webapp/image/test.jpg' %}" alt="">
+    </div>
+</div>
+<script>
+    function submitForms() {
+        document.getElementById("search-form").submit();
+    }
+    function remove() {
+        console.log("remove");
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        for (var i=0; i<checkboxes.length; i++) {
+            checkboxes[i].checked = false;
+        }
+        document.getElementById("search-form").submit();
+    }
+    const a = {{ filters|safe }};
+    for (var i=0; i<a.length; i++) {
+        document.getElementById(a[i]).checked = true;
+    }
+</script>
+{% endblock %}

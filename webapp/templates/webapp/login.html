@@ -1,0 +1,30 @@
+{% extends "webapp/layout.html" %}
+{% load static %}
+
+{% block main %}
+<div class="login-form">
+    <div class="form-head">
+        Login
+    </div>
+    {% if flash_msg %}
+    <div class="flash-msg">
+        {{flash_msg}}
+    </div>
+    {% endif %}
+    <form action="{% url 'login' %}" method="post" id="login">
+        {% csrf_token %}
+        <div class="input-group">
+            <div class="label"><i class="fas fa-user"></i>Username</div>
+            <input type="text" class="input" name="username" required>
+        </div>
+        <div class="input-group">
+            <div class="label"><i class="fas fa-unlock"></i>Password</div>
+            <input type="password" class="input" name="pw" required>
+        </div>
+        <input type="submit" class="login-btn" value="LOG IN">
+    </form>
+    <div class="signup-msg">
+        Dont have and Account? Click Here to <a href="{% url 'signup' %}">Signup</a>
+    </div>
+</div>
+{% endblock %}

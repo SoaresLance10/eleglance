@@ -1,0 +1,56 @@
+{% extends "webapp/layout.html" %}
+{% load static %}
+
+{% block main %}
+
+<div class="card-wrapper">
+    <div class="product-card">
+        <!--Card Left-->
+        <div class="product-imgs">
+            <div class="img-display">
+                <div class="img-showcase">
+                    {% for image in images %}
+                        <img src="{{image.image.url}}" alt="" class="product-img"><br>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="img-select">
+                {% for image in images %}
+                    <div class="img-item">
+                        <a href="#" data-id={{forloop.counter}}>
+                            <img src="{{image.image.url}}" width=80px alt="">
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!--Card Right-->
+        <div class="product-content">
+            <h2 class="product-title">
+                {{product.name}}
+            </h2>
+            <div class="product-details">
+                <div class="detail">
+                    <span class="det-head">Gold Weight (18k): </span>{{product.gold_weight}} gms<br>
+                </div>
+                <div class="detail">
+                    <span class="det-head">Diamond Weight: </span>{{product.diamond_weight}} cts<br><br>
+                </div>
+                <div class="detail sku">
+                    <span class="sku-head">SKU:</span> {{product.sku}}
+                </div>
+            </div>
+            <div class="wishlist">
+                {% if wishlist %}
+                    <i class="far fa-heart"></i>&nbsp;&nbsp;&nbsp;&nbsp;Product already in Wishlist! <a href="{% url 'wishlist' %}" class="view-wishlist">View Wishlist</a>
+                {% else %}
+                    <div class="add-wishlist-btn">
+                        <a href="{% url 'addWishlist' sku=product.sku %}"><i class="fas fa-heart"></i>&nbsp;&nbsp;&nbsp;&nbsp;Add to Wishlist</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

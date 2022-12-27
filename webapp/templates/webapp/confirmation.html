@@ -1,0 +1,16 @@
+{% extends "webapp/layout.html" %}
+{% load static %}
+
+{% block main %}
+<div class="confirm-content">
+    <div class="confirm-head">
+        Request Recieved
+    </div>
+    <img src="{% static 'webapp/image/mailsent.svg' %}" alt="">
+    <div class="confirm-text">
+        Your Wishlist has been submitted for Quotation.<br>
+        We will get back to you as soon as possible.<br><br>
+        Incase of other queries, you can reach us <a href="mailto:soareslance10@gmail.com" class="confirm-contact">here</a>.
+    </div>
+</div>
+{% endblock %}

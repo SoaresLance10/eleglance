@@ -1,0 +1,108 @@
+{% extends "webapp/layout.html" %}
+{% load static %}
+
+{% block main %}
+<div class="wishlist-content">
+    <div class="wishlist-header flex-row">
+        <div class="wishlist-head">My Wishlist</div>
+        <div class="ask-quote" onclick="showForm()">
+            <i class="fas fa-list"></i>&nbsp;&nbsp; Ask For Quotation
+        </div>
+    </div>
+    <div class="wishlist-items">
+        {% for product, image_date in wishlist.items %}
+            <div class="wishlist-item">
+                <div class="remove-item">
+                    <a href="{% url 'removeWishlist' sku=product.sku %}"><i class="far fa-times-circle"></i></a>
+                </div>
+                {% for image, date in image_date.items %}
+                    <div class="item-img">
+                        <a href="{% url 'product' sku=product.sku %}"><img src="{{image.image.url}}" alt="" width="170px"><br></a>
+                    </div>
+                    <div class="item-name">
+                        <a href="{% url 'product' sku=product.sku %}" class="wishlist-link">{{product.name}}</a>
+                    </div>
+                    <div class="item-details">
+                        <div class="wishlist-det">
+                            <span class="wish-det-head">Gold Weight (18k): </span>{{product.gold_weight}} gms
+                        </div>
+                        <div class="wishlist-det">
+                            <span class="wish-det-head">Diamond Weight: </span>{{product.diamond_weight}} cts
+                        </div>
+                    </div>
+                    <div class="item-date">
+                        Added On: {{date}}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+        
+    </div>
+</div>
+
+<div class="wishlist-submit-form" id="wishlist-form">
+    <div class="submit-form-close"><i class="fas fa-times" onclick="hideForm()"></i></div>
+    <div class="form-content">
+        <div class="submit-form-header">
+            Request Summary
+        </div>
+        <hr class="line">
+        <div class="submit-form-body">
+            <div class="submit-summary">
+                <h2 class="form-title">Wishlisted Items</h2>
+                {% for product, image_date in wishlist.items %}
+                <div class="summary-link">
+                    <a href="{% url 'product' sku=product.sku %}">{{forloop.counter}}.&nbsp;&nbsp;{{product.name}}</a>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="submit-form">
+                <form action="{% url 'sendWishlist' %}" method="post">
+                    {% csrf_token %}
+                    <h2 class="form-title">Additional Details</h2>
+                    <div class="submit-form-category">
+                        <label for="diamond_quality">Diamond Quality:</label>
+                        <select id="diamond_quality" name="diamond_quality" required>
+                            <option hidden disabled selected value> -- select an option -- </option>
+                            <option value="Option1">Option1</option>
+                            <option value="Option2">Option2</option>
+                            <option value="Option3">Option3</option>
+                        </select>
+                    </div>
+                    <div class="submit-form-category">
+                        <label for="gold_purity">Gold Purity:</label>
+                        <select id="gold_purity" name="gold_purity" required>
+                            <option hidden disabled selected value> -- select an option -- </option>
+                            <option value="Option1">Option1</option>
+                            <option value="Option2">Option2</option>
+                            <option value="Option3">Option3</option>
+                        </select>
+                    </div>
+                    <div class="submit-form-category">
+                        <label for="gold_color">Gold Color:</label>
+                        <select id="gold_color" name="gold_color" required>
+                            <option hidden disabled selected value> -- select an option -- </option>
+                            <option value="Option1">Option1</option>
+                            <option value="Option2">Option2</option>
+                            <option value="Option3">Option3</option>
+                        </select>
+                    </div><br>
+                    <input type="submit" value="Submit Wishlist" class="wishlist-submit-button">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>    
+    const form = document.getElementById("wishlist-form");
+    function showForm() {
+        console.log("activate form")
+        form.classList.add("active-submit-form");
+    }
+    function hideForm() {
+        console.log("deactivate form")
+        form.classList.remove("active-submit-form");
+    }
+</script>
+{% endblock %}
